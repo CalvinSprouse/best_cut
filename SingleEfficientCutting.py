@@ -6,7 +6,7 @@ from random import choice
 
 from rich import print
 
-from CuttingInputB import cut_boards_requirements, raw_board_length, blade_length
+from CuttingInputA import cut_boards_requirements, raw_board_length, blade_length
 
 # start timer for benchmarking
 timer_start = timeit.default_timer()
@@ -120,11 +120,13 @@ for cut_possibility in cut_possibilities_analyzed:
 total_blade_waste = sum([_[3] for _ in cut_order_list])
 total_raw_waste = sum([_[4] for _ in cut_order_list])
 total_waste = sum([_[5] for _ in cut_order_list])
-final_cuts = [(_[0], _[2]) for _ in cut_order_list]
-final_cuts.sort(key = lambda cut_list: cut_list[0])
-final_cuts.reverse()
 raw_boards_required = sum([_[0] for _ in cut_order_list])
 total_cut_board_counts = [cut_boards_requirements[_][1] - current_cut_board_list[_] for _ in range(len(cut_boards_requirements))]
+
+# create the final cuts list
+final_cuts = [(_[0], _[2], _[5]) for _ in cut_order_list]
+# sort by the waste
+final_cuts.sort(key = lambda cut_list: cut_list[2])
 
 # stop timer
 timer_stop = timeit.default_timer()
@@ -135,5 +137,5 @@ print(f"Raw {raw_board_length} Length Boards Required: {raw_boards_required}")
 print(f"Quantity Made: {total_cut_board_counts}")
 print(f"Board Lengths: {[_[0] for _ in cut_boards_requirements]}")
 print(f"Cuts Required:")
-for cut in final_cuts: print(f"{cut[0]} Times: {cut[1]}")
+for cut in final_cuts: print(f"{cut[0]} Times: {cut[1]}\tWaste: {cut[2]}")
 print(f"\nElapsed Time: {timer_stop - timer_start} seconds")
