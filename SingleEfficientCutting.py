@@ -6,7 +6,7 @@ from random import choice
 
 from rich import print
 
-from CuttingInput import cut_boards_requirements, raw_board_length, blade_length
+from CuttingInputB import cut_boards_requirements, raw_board_length, blade_length
 
 # start timer for benchmarking
 timer_start = timeit.default_timer()
